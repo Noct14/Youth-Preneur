@@ -6,7 +6,6 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\SellerController;
 use App\Http\Livewire\Navbar;
 
 use App\Models\Category;
@@ -29,6 +28,5 @@ Route::get('/transaction', [TransactionController::class, 'viewTransaction'])->n
 //SELLER
 Route::get('/seller', function () {return view('seller.dashboard');
 })->name('seller');
-Route::get('/seller/products', [SellerController::class, 'getBySeller'])->name('products.bySeller');
-Route::get('/seller/product/create', function () {return view('seller.addproduct');
-})->name('products.create');
+Route::get('/seller/product-list', function () {return view('seller.productlist');
+})->name('productlist');
