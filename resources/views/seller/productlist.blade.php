@@ -614,29 +614,49 @@
 
 <div class="container-body">
     <div class="section-header">
-            Daftar Produk
-            <a href="tambah_produk.php" class="add-button" aria-label="Tambah Produk">+</a>
-        </div>
-        <ul class="product-list">
-                <li class="product-item">
-                <div class="product-image" aria-label="Placeholder image">
-                <svg width="48" height="48" fill="#bbb" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
+        Daftar Produk
+        <a href="{{ route('products.create') }}" class="add-button" aria-label="Tambah Produk">+</a>
+    </div>
+
+    <ul class="product-list">
+        @forelse ($products as $product)
+            <li class="product-item">
+                <div class="product-image" aria-label="Gambar produk">
+                    @if ($product->image_url)
+                        <img src="{{ asset($product->image_url) }}" alt="{{ $product->product_name }}" width="48" height="48">
+                    @else
+                        <svg width="48" height="48" fill="#bbb" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
+                    @endif
                 </div>
                 <div class="product-info">
-                <h3 class="product-title">burger</h3>
-                <div class="actions">
-                <a href="edit_produk.php?id=' . $product['id'] . '" class="edit-text">Edit</a>
-                <button class="btn-tandai" type="button">Tandai Habis</button>
-                <button class="btn-delete" aria-label="Hapus Produk">
-                <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="48px" height="48px">
-                    <path d="M 10 2 L 9 3 L 5 3 C 4.4 3 4 3.4 4 4 C 4 4.6 4.4 5 5 5 L 7 5 L 17 5 L 19 5 C 19.6 5 20 4.6 20 4 C 20 3.4 19.6 3 19 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 20 C 5 21.1 5.9 22 7 22 L 17 22 C 18.1 22 19 21.1 19 20 L 19 7 L 5 7 z M 9 9 C 9.6 9 10 9.4 10 10 L 10 19 C 10 19.6 9.6 20 9 20 C 8.4 20 8 19.6 8 19 L 8 10 C 8 9.4 8.4 9 9 9 z M 15 9 C 15.6 9 16 9.4 16 10 L 16 19 C 16 19.6 15.6 20 15 20 C 14.4 20 14 19.6 14 19 L 14 10 C 14 9.4 14.4 9 15 9 z"></path>
-                </svg>
-                </button>
+                    <h3 class="product-title">{{ $product->product_name }}</h3>
+                    <div class="actions">
+                        <a href="{{ route('seller', $product->id) }}" class="edit-text">Edit</a>
+                        <form action="{{ route('seller', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button class="btn-tandai" type="submit">Tandai Habis</button>
+                        </form>
+                        <form action="{{ route('seller', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn-delete" aria-label="Hapus Produk">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48px" height="48px">
+                                    <path d="M10 2 L9 3 L5 3 C4.4 3 4 3.4 4 4 C4 4.6 4.4 5 5 5 L7 5 L17 5 L19 5 C19.6 5 20 4.6 20 4 C20 3.4 19.6 3 19 3 L15 3 L14 2 L10 2 z M5 7 L5 20 C5 21.1 5.9 22 7 22 L17 22 C18.1 22 19 21.1 19 20 L19 7 L5 7 z M9 9 C9.6 9 10 9.4 10 10 L10 19 C10 19.6 9.6 20 9 20 C8.4 20 8 19.6 8 19 L8 10 C8 9.4 8.4 9 9 9 z M15 9 C15.6 9 16 9.4 16 10 L16 19 C16 19.6 15.6 20 15 20 C14.4 20 14 19.6 14 19 L14 10 C14 9.4 14.4 9 15 9 z"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
+            </li>
+        @empty
+            <li class="product-item">
+                <div class="product-info">
+                    <p>Kamu belum mempunyai produk</p>
                 </div>
-                </li>
+            </li>
+        @endforelse
+    </ul>
 
-        </ul>
-    </div>
+</div>
 
 @include('components.seller.footer')
