@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ukrida E-Commerce Seller Dashboard - Tambah Produk</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet" />
     <style>
         * {
             box-sizing: border-box;
@@ -365,7 +366,7 @@
 </head>
 
 @include('components.seller.navbar')
-
+<script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
 <body>
     <div class="product-form-container">
         <div class="card-style-form">
@@ -373,61 +374,124 @@
                 <h2>Tambah Produk</h2>
             </div>
 
-            <form action="#" method="post" enctype="multipart/form-data" style="padding: 1.25em">
-                <div class="image-placeholders">
-                    <div class="image-placeholder">
-                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="image" role="img"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path fill="currentColor"
-                                d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54c-3.31 0-6-2.69-6-6V118c0-3.31 2.69-6 6-6h404c3.31 0 6 2.69 6 6v276c0 3.31-2.69 6-6 6zM140.23 204.64l67.57 67.57c6.25 6.25 16.38 6.25 22.63 0l67.57-67.57c6.25-6.25 16.38-6.25 22.63 0L396 293.4V384H116l24.23-88.96c6.25-6.25 16.38-6.25 22.63 0zM192 176c-17.67 0-32 14.33-32 32s14.33 32 32 32 32-14.33 32-32-14.33-32-32-32z">
-                            </path>
-                        </svg>
-                        <img id="preview_0" src="#" alt="Gambar Produk 1" style="display: none;">
-                        <input type="file" name="gambar_produk_0" id="gambar_produk_0" accept="image/*"
-                            onchange="previewImage(event, 'preview_0')">
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                {{-- Image Upload + Crop --}}
+                <div class="form-group">
+                    <label for="imageInput">Upload Gambar</label><br>
+                    <input type="file" id="imageInput" accept="image/*">
+                    <div style="margin-top: 10px;">
+                        <img id="imagePreview" style="max-width: 100%; display:none;" />
                     </div>
+                    <button type="button" id="cropButton" class="btn btn-secondary mt-2">Crop & Simpan</button>
                 </div>
 
+                {{-- Preview hasil crop --}}
+                <div class="form-group mt-3">
+                    <label>Preview Gambar Akhir</label><br>
+                    <img id="preview_0" src="#" style="max-width: 100%; display:none;" />
+                    <input type="file" name="image" id="imageHidden" style="display:none;" required>
+                </div>
+
+
+                {{-- Nama Produk --}}
                 <div class="form-group">
-                    <label for="nama_produk">Nama Produk</label>
-                    <input type="text" id="nama_produk" name="nama_produk" value="Boba Melekat Kayak Kamu"
-                        placeholder="Masukkan nama produk">
+                    <label for="product_name">Nama Produk</label>
+                    <input type="text" name="product_name" id="product_name" class="form-control" required>
                 </div>
 
+                {{-- Harga --}}
                 <div class="form-group">
-                    <label for="keterangan_produk">Keterangan Produk</label>
-                    <textarea id="keterangan_produk" name="keterangan_produk" rows="3"
-                        placeholder="Masukkan keterangan produk">Rasanya Enak</textarea>
+                    <label for="price">Harga</label>
+                    <input type="number" name="price" id="price" class="form-control" required>
                 </div>
 
-                <div class="upload-button-container">
-                    <button type="submit" name="submit_product" class="upload-button">Upload</button>
+                {{-- Kategori --}}
+                <div class="form-group">
+                    <label for="category">Kategori</label>
+                    <select name="category_id" id="category_id" class="form-control" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
+                {{-- Stok --}}
+                <div class="form-group">
+                    <label for="stock">Stok</label>
+                    <input type="number" name="stock" id="stock" class="form-control" required>
+                </div>
+
+                {{-- Deskripsi --}}
+                <div class="form-group">
+                    <label for="description">Deskripsi</label>
+                    <textarea name="description" id="description" rows="4" class="form-control"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Simpan Produk</button>
             </form>
+
+
         </div>
 
     </div>
 
     <script>
-        function previewImage(event, previewId) {
+        let cropper;
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageHidden = document.getElementById('imageHidden');
+
+        imageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
             const reader = new FileReader();
-            reader.onload = function () {
-                const output = document.getElementById(previewId);
-                output.src = reader.result;
-                output.style.display = 'block'; // Tampilkan gambar
-                output.previousElementSibling.style.display = 'none'; // Sembunyikan SVG
+
+            reader.onload = function (event) {
+                imagePreview.src = event.target.result;
+                imagePreview.style.display = 'block';
+
+                imagePreview.onload = () => {
+                    if (cropper) cropper.destroy();
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 4/3,
+                        viewMode: 1,
+                    });
+                };
             };
-            if (event.target.files[0]) {
-                reader.readAsDataURL(event.target.files[0]);
-            } else {
-                // Jika file dihapus/tidak ada, tampilkan lagi SVG dan sembunyikan gambar
-                const output = document.getElementById(previewId);
-                output.src = '#';
-                output.style.display = 'none';
-                output.previousElementSibling.style.display = 'block';
-            }
-        }
+
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('cropButton').addEventListener('click', () => {
+            const canvas = cropper.getCroppedCanvas({
+                width: 800,
+                height: 600,
+            });
+
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    alert("Gagal crop gambar.");
+                    return;
+                }
+
+                // Simulasi input file
+                const file = new File([blob], 'cropped.png', { type: 'image/png' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageHidden.files = dataTransfer.files;
+
+                // preview
+                const preview = document.getElementById('preview_0');
+                preview.src = URL.createObjectURL(blob);
+                preview.style.display = 'block';
+
+                alert('Gambar berhasil dicrop! Klik Simpan Produk untuk menyimpan.');
+            }, 'image/png');
+        });
     </script>
+
 
 </body>
 
