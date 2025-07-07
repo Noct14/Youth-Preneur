@@ -13,7 +13,7 @@
     </header>
     <div class="navbar-top-first">
         <a href="{{ route('seller') }}">Home</a>
-        <a href="{{ route('seller') }}">Daftar Produk</a>
+        <a href="{{ route('products.bySeller') }}">Daftar Produk</a>
         <a href="pesanan_dikirim_disortir.php">Pesanan Dikirim</a>
         <a href="pesanan_masuk.php">Pesanan Masuk</a>
         <a href="proses_pesanan.php">Proses Pesanan</a>
