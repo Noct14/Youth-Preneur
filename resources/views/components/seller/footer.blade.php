@@ -184,8 +184,8 @@
         </div>
 
         <div class="footer-images">
-            <img src="uec-edit.png" alt="Logo UEC">
-            <img src="ukrida.png" alt="Logo Ukrida" style="max-width: 250px">
+            <img src="{{ asset('images/uec.png') }}" alt="Logo UEC">
+            <img src="{{ asset('images/ukrida.png') }}" alt="Logo Ukrida" style="max-width: 250px">
         </div>
 
         <div class="footer-copyright">

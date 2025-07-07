@@ -30,5 +30,11 @@ Route::get('/transaction', [TransactionController::class, 'viewTransaction'])->n
 Route::get('/seller', function () {return view('seller.dashboard');
 })->name('seller');
 Route::get('/seller/products', [SellerController::class, 'getBySeller'])->name('products.bySeller');
-Route::get('/seller/product/create', function () {return view('seller.addproduct');
-})->name('products.create');
+// Tambah Produk
+Route::get('/seller/product/create', [SellerController::class, 'create'])->name('products.create');
+Route::post('/seller/product', [SellerController::class, 'store'])->name('products.store');
+
+// Upload gambar hasil crop
+// Route::post('/products/upload', [SellerController::class, 'upload'])->name('products.upload');
+
+
