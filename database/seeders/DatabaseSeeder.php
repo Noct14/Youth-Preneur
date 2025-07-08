@@ -31,6 +31,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123'),
             'role' => 'uec',
         ]);
+        User::factory()->create([
+            'name' => 'admin 1',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('123'),
+            'role' => 'admin',
+        ]);
 
         DB::table('categories')->insert([
             [
