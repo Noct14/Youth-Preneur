@@ -455,7 +455,7 @@
                 imagePreview.onload = () => {
                     if (cropper) cropper.destroy();
                     cropper = new Cropper(imagePreview, {
-                        aspectRatio: 4/3,
+                        aspectRatio: 1 / 1,
                         viewMode: 1,
                     });
                 };
@@ -467,7 +467,7 @@
         document.getElementById('cropButton').addEventListener('click', () => {
             const canvas = cropper.getCroppedCanvas({
                 width: 800,
-                height: 600,
+                height: 800,
             });
 
             canvas.toBlob((blob) => {
@@ -476,7 +476,7 @@
                     return;
                 }
 
-                // Simulasi input file
+
                 const file = new File([blob], 'cropped.png', { type: 'image/png' });
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
