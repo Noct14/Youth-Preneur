@@ -367,8 +367,10 @@
     <div class="product-details-section">
         <h1>{{ $product->product_name }}</h1>
         <div class="price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-        <div class="store-name">{{ $product->seller->DetailSeller->store_name }}</div>
 
+        <a class="store-name" href="{{ route('store.show', $product->seller->DetailSeller->id) }}">{{ $product->seller->DetailSeller->store_name }}</a>
+
+        {{-- notif success and error add to cart --}}
         @if (session('success'))
             <div class="alert alert-success" style="padding: 10px; margin-bottom: 10px; background-color: #d4edda; color: #155724;">
                 {{ session('success') }}

@@ -623,7 +623,7 @@
             <li class="product-item">
                 <div class="product-image" aria-label="Gambar produk">
                     @if ($product->image_url)
-                        <img src="{{ asset($product->image_url) }}" alt="{{ $product->product_name }}" width="48" height="48">
+                        <img src="{{ asset($product->image_url) }}" alt="{{ $product->product_name }}" width="80" height="80">
                     @else
                         <svg width="48" height="48" fill="#bbb" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
                     @endif

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\StoreController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CheckoutController;
@@ -13,9 +12,9 @@ use App\Models\Category;
 
 Route::get('/', [ProductController::class, 'getAllCategories']);
 Route::get('/category/{slug}', [ProductController::class, 'showByCategory'])->name('category.show');
+Route::get('/store/{id}', [ProductController::class, 'showBySeller'])->name('store.show');
 Route::get('/product/{id}', [ProductController::class, 'detailProduct'])->name('detail.Product');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
-Route::get('/store/{id}', [StoreController::class, 'detailStore']);
 
 Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
 Route::delete('/cart/remove/{item}', [CartController::class, 'remove'])->name('cart.remove');

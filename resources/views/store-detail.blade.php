@@ -85,7 +85,7 @@
 
     .product-card-image {
         width: 100%;
-        height: 200px; /* Tinggi gambar */
+
         background-color: #f5f5f5; /* Warna background gambar */
         display: flex;
         justify-content: center;
@@ -94,8 +94,7 @@
     }
 
     .product-card-image img {
-        max-width: 80px; /* Ukuran ikon placeholder */
-        opacity: 0.3;
+        max-width: 200px; /* Ukuran ikon placeholder */
     }
 
     .product-card-content {
@@ -166,8 +165,8 @@
 <body>
     <div class="main-content-wrapper">
         <div class="shop-detail-header">
-            <div class="shop-detail-title">Detil Toko</div>
-            <div class="shop-name">{{ $store_name }}</div>
+            <div class="shop-detail-title">Detail Toko</div>
+            <div class="shop-name">{{ $detailSellers->store_name }}</div>
         </div>
 
         <div class="grid-wrapper">
@@ -181,7 +180,7 @@
                         <div class="product-card-content">
                             <div class="product-card-title">{{ $product->product_name }}</div>
                             <div class="product-card-price">Rp. {{ number_format($product->price, 0, ',', '.') }}</div>
-                            <div class="product-card-store">{{ $store_name }}</div>
+                            <div class="product-card-store">{{ $detailSellers->store_name }}</div>
                         </div>
                     </a>
                 @empty

@@ -1,0 +1,6 @@
+# Ignore semua file dalam folder public/uploads/products
+/public/uploads/products/*
+
+# Kecualikan dua file berikut:
+!/public/uploads/products/1752096366.png
+!/public/uploads/products/image2.png

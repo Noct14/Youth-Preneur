@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\DetailSellers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,15 @@ class ProductController extends Controller
         return view('category', compact('category', 'products'));
     }
 
+    public function showBySeller($id)
+    {
+        $detailSellers = DetailSellers::findOrFail($id);
+        $products = $detailSellers->user->products;
+
+        return view('store-detail', compact('products', 'detailSellers'));
+    }
+
+
     public function detailProduct($id)
     {
         $product = Product::with(['optionGroups.options', 'seller.DetailSeller'])->findOrFail($id);
@@ -38,7 +48,7 @@ class ProductController extends Controller
             return view('search', ['products' => collect(), 'query' => '']);
         }
 
-        $products = Product::with('seller.sellerRequest')
+        $products = Product::with('seller.DetailSeller')
             ->where('product_name', 'like', "%{$query}%")
             ->get();
 

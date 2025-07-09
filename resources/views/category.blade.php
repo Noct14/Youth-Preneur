@@ -46,11 +46,11 @@
 <div class="product-grid">
     @forelse ($products as $product)
         <a href="{{ route('detail.Product', $product->id) }}" class="product-card">
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-            <h3>{{ $product->name }}</h3>
+            <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+            <h3>{{ $product->product_name }}</h3>
             <p>Rp {{ number_format($product->price, 0, ',', '.') }}</p>
             @if ($product->seller && $product->seller->DetailSeller && $product->seller->DetailSeller->status === 'approved')
-                <div class="store-name">{{ $product->seller->DetailSeller->store_name }}</div>
+                <h3 class="store-name" style="text-decoration:none">{{ $product->seller->DetailSeller->store_name }}</h3>
             @endif
         </a>
     @empty
