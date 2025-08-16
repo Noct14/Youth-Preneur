@@ -61,4 +61,9 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'Checkout gagal. Silakan coba lagi.');
         }
     }
+
+    public function viewCheckout(Request $request)
+    {
+        dd($request->all());
+    }
 }

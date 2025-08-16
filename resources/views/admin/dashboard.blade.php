@@ -1,5 +1,7 @@
-<title>Home</title>
-
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+</head>
 <style>
     .dashboard {        
         display: grid;
@@ -26,15 +28,16 @@
         font-weight: bold;
     }
 </style>
+@include('components.admin.navbar')
 
 <div class="dashboard">
     <div class="card">
         <h3>Jumlah Seller</h3>
-        <p>10</p>
+        <p>{{$sellersCount}}</p>
     </div>
     <div class="card">
         <h3>Jumlah Buyer</h3>
-        <p>5</p>
+        <p>{{$buyersCount}}</p>
     </div>
     <div class="card">
         <h3>Transaksi Bulan ini</h3>
@@ -45,3 +48,4 @@
         <p>2</p>
     </div>
 </div>
+@include('components.admin.footer')

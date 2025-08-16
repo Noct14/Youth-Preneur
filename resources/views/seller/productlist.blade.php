@@ -617,7 +617,11 @@
         Daftar Produk
         <a href="{{ route('products.create') }}" class="add-button" aria-label="Tambah Produk">+</a>
     </div>
-
+            @if(session('success'))
+                <div style="padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px; margin: 15px;">
+                    {{ session('success') }}
+                </div>
+            @endif
     <ul class="product-list">
         @forelse ($products as $product)
             <li class="product-item">
@@ -631,12 +635,13 @@
                 <div class="product-info">
                     <h3 class="product-title">{{ $product->product_name }}</h3>
                     <div class="actions">
-                        <a href="{{ route('seller', $product->id) }}" class="edit-text">Edit</a>
-                        <form action="{{ route('seller', $product->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('products.edit', $product->id) }}" class="edit-text">Edit</a>
+                        <a href="{{ route('seller.dashboard', $product->id) }}" class="edit-text">Edit Variasi</a>
+                        <form action="{{ route('seller.dashboard', $product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             <button class="btn-tandai" type="submit">Tandai Habis</button>
                         </form>
-                        <form action="{{ route('seller', $product->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('product.delete', $product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button class="btn-delete" aria-label="Hapus Produk">

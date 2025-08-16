@@ -1,4 +1,4 @@
-<?php include "detil_akun.php"; ?>
+@include('admin.detil_akun')
 
 <style>
     .content {
@@ -69,20 +69,21 @@
 <div class='content'>
     <div class="buyer-card">
         <div class="buyer-image">
-            <img src="https://cdn-icons-png.flaticon.com/512/1829/1829586.png" alt="Icon Produk">
+            <img src="https://cdn-icons-png.flaticon.com/512/1829/1829586.png" alt="Icon Pembeli">
         </div>
         <div class="buyer-info">
-            <h3>Andreas - 412022002</h3>
-            <p>Email: email</p>
-            <p>Pengguna Sejak: 01-02-2025</p>
+            <h3>{{ $buyer->name }}</h3>
+            <p>Email: {{ $buyer->email }}</p>
+            <p>Pengguna Sejak: {{ \Carbon\Carbon::parse($buyer->created_at)->format('d F Y') }}</p>
             <p>Total Transaksi: 5</p>
             <p>Transaksi Belum Dibayar: 1</p>
             <p>Transaksi Diproses: 1</p>
             <p>Transaksi Selesai: 3</p>
-            <div class="buyer-actions">
-                <button>Lihat Detail</button>
-                <button>Hapus Pembeli</button>
-            </div>
+                <div class="buyer-actions">
+                    <button>Lihat Detail</button>
+                    <button>Hapus Pembeli</button>
+                </div>
         </div>
     </div>
 </div>
+@include('components.admin.footer')

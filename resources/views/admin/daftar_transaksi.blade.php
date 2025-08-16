@@ -1,3 +1,6 @@
+<head>
+    <meta charset="utf-8">
+    <title>Transaksi</title>
 <style>
     body {
         font-family: sans-serif;
@@ -32,14 +35,7 @@
         padding-bottom: 40px; /* Sama dengan keranjang */
         border-bottom: 1px solid #eee; /* Sama dengan keranjang */
     }
-    /* Hapus border bawah pada entri transaksi terakhir */
-    .transaction-entry:last-of-type {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
 
-    /* Item Card sekarang akan menjadi detail transaksi inti */
     .transaction-item-detail {
         display: flex;
         align-items: flex-start; /* Align items to the top */
@@ -130,6 +126,91 @@
         display: none;
     }
 
+    /* Dropdown Waktu */
+    .filter-wrapper {
+        margin-bottom: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .filter-wrapper label {
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+
+    .filter-wrapper select,
+    .filter-wrapper input[type="date"] {
+        padding: 8px 12px;
+        font-size: 0.9em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .filter-wrapper button {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .filter-wrapper button:hover {
+        background-color: #555;
+    }
+
+    /* Perbaikan layout transaksi */
+    .transaction-entry {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        background-color: #fafafa;
+        transition: box-shadow 0.3s;
+    }
+
+    .transaction-entry:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .transaction-title {
+        color: #333;
+        font-size: 1.2em;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .transaction-line-item {
+        margin-bottom: 3px;
+    }
+
+    .transaction-total {
+        color: #000;
+        font-size: 1.1em;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .transaction-date {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .komplain-button {
+        background-color: #f0f0f0;
+        color: #333;
+        border: 1px solid #ccc;
+    }
+
+    .komplain-button:hover {
+        background-color: #ddd;
+    }
+
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .main-content-wrapper {
@@ -177,13 +258,41 @@
 </style>
 </head>
 <body>
+    @include('components.admin.navbar')
     <div class="main-content-wrapper">
-        <div class="page-main-header dropdown">Pilih Waktu</div> <!-- belum selesai -->
+        <div class="filter-wrapper">
+            <input type="date" id="filter-date" name="filter-date" placeholder="Tanggal">
+            
+            <select id="filter-month" name="filter-month">
+                <option value="">Pilih Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+            
+            <select id="filter-year" name="filter-year">
+                <option value="">Pilih Tahun</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+            
+            <button id="apply-filter">Terapkan</button>
+        </div>
 
         <div class="transaction-entry">
             <div class="transaction-item-detail">
                 <div class="item-placeholder">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWltYWdlIj48cmVjdCB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHgzPSIzIiB5PSIzIiByeD0iMiIvPjxjaXJjbGUgY3g9IjgiIGCyPSI4IiByPSIyIi8+PHBvbHlsaW5lIHBvaW50cz0iNyAxMiAxMiAxNyAxNyAxMiAxMiAyMiIvPjwvc3ZnPg==" alt="Placeholder Image">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB..." alt="Placeholder Image">
                 </div>
                 <div class="transaction-info-group">
                     <div class="transaction-title">Boba Melekat Kayak Kamu #UEC0101</div>
@@ -200,4 +309,6 @@
         </div>
     </div> 
 </body>
+@include('components.admin.footer')
 </html>
+

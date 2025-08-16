@@ -1,31 +1,11 @@
-<div>
-    <header class="header-bar-second">
-        <div class="logo-container">
-            <img src="{{ asset('images/uec.png') }}" alt="Ukridda E-Commerce Logo">
-        </div>
-        <div class="search-bar-wrapper">
-            <form action="search" method="GET" class="search-bar">
-                <input type="text" name="q" id="searchInput" placeholder="Cari di Sini" value="{{ request('q') }}">
-                <button type="button" class="clear-btn" onclick="clearSearch()">✖</button>
-            </form>
-        </div>
-        <a href="logout.php" class="logout-btn">Logout</a>
-    </header>
-    <div class="navbar-top-first">
-        <a href="{{ route('seller.dashboard') }}">Home</a>
-        <a href="{{ route('products.bySeller') }}">Daftar Produk</a>
-        <a href="pesanan_dikirim_disortir.php">Pesanan Dikirim</a>
-        <a href="pesanan_masuk.php">Pesanan Masuk</a>
-        <a href="proses_pesanan.php">Proses Pesanan</a>
-    </div>
-
-    <script>
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchInput').focus();
-        }
-    </script>
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukrida E-Commerce Seller Dashboard - Tambah Produk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet" />
     <style>
         * {
             box-sizing: border-box;
@@ -38,29 +18,26 @@
             background-color: #f0f2f5;
             color: #333;
             line-height: 1.6;
-            min-height: 100vh;
-            /* Ensures body takes full height */
             display: flex;
-            /* Use flexbox for layout */
+            /* Use flexbox for body */
             flex-direction: column;
             /* Stack children vertically */
+            min-height: 100vh;
+            /* Ensure body takes full viewport height */
         }
 
-        /* --- Bagian Navigasi Paling Atas (Full Width) --- */
+        /* --- Bagian Navigasi Paling Atas (gambar pertama: image_16aff3.png) --- */
         .navbar-top-first {
             display: flex;
             background-color: #fff;
             padding: 10px 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             justify-content: center;
-            /* Centers content within the full width */
+            /* Mengatur agar elemen berada di tengah */
             flex-wrap: wrap;
             gap: 25px;
+            /* Jarak antar tautan lebih besar */
             border-bottom: 1px solid #eee;
-            width: 100%;
-            /* Spans full width of the body */
-            box-sizing: border-box;
-            /* Include padding in width */
         }
 
         .navbar-top-first a {
@@ -70,13 +47,14 @@
             font-size: 15px;
             font-weight: 500;
             white-space: nowrap;
+            /* Pastikan tidak memecah baris */
         }
 
         .navbar-top-first a:hover {
             color: #007bff;
         }
 
-        /* --- Bagian Header Bar Kedua (Full Width) --- */
+        /* --- Bagian Header Bar Kedua (gambar kedua: Screenshot 2025-06-05 114502.png, dimodifikasi) --- */
         .header-bar-second {
             background-color: #fff;
             padding: 10px 20px;
@@ -85,12 +63,11 @@
             justify-content: space-between;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: sticky;
+            /* Tetap di atas saat digulir */
             top: 0;
+            /* Menempel di bagian atas viewport */
             z-index: 999;
-            width: 100%;
-            /* Spans full width of the body */
-            box-sizing: border-box;
-            /* Include padding in width */
+            /* Pastikan di bawah navbar-top-first */
         }
 
         .header-bar-second .logo-container {
@@ -98,11 +75,14 @@
             align-items: center;
             flex-shrink: 0;
             margin-right: 20px;
+            /* Memberi sedikit jarak dari search bar */
         }
 
         .header-bar-second .logo-container img {
             height: 75px;
+            /* Sesuaikan tinggi logo sesuai kebutuhan */
             width: auto;
+            /* Jaga aspek rasio */
         }
 
         .header-bar-second .search-bar-wrapper {
@@ -120,7 +100,6 @@
             padding: 5px 15px;
             background-color: #fff;
             max-width: 600px;
-            /* Still constrain search bar width within the full-width header */
             width: 100%;
             position: relative;
             height: 38px;
@@ -163,42 +142,26 @@
             transition: background-color 0.2s ease-in-out;
             flex-shrink: 0;
             margin-left: 20px;
+            /* Memberi jarak dari search bar */
         }
 
         .header-bar-second .logout-btn:hover {
             background-color: #555;
         }
 
-        /* --- Global Page Wrapper to control content width below header/navbar --- */
-        #page-wrapper {
-            max-width: 1200px;
-            /* Desired overall content width for dashboard */
-            margin: 20px auto 0 auto;
-            /* Center the wrapper, add top margin */
-            width: 100%;
-            /* Ensure it takes full width on smaller screens up to max-width */
-            flex-grow: 1;
-            /* Allow it to grow and fill available space between header and footer */
-            background-color: #f0f2f5;
-            /* Match body background */
-            padding: 0 20px;
-            /* Add horizontal padding inside the wrapper */
-            box-sizing: border-box;
-            /* Include padding in width */
-        }
-
-
-        /* --- Konten Utama Dashboard (inside #page-wrapper) --- */
+        /* --- Konten Utama Dashboard --- */
+        /* This section was present in your original code but not explicitly used for edit_produk page layout.
+           Keeping it for consistency if other dashboard pages use it. */
         .dashboard-main-content {
-            padding: 0;
-            /* Padding is now on #page-wrapper */
-            width: 100%;
-            /* Takes full width of its parent (#page-wrapper) */
-            box-sizing: border-box;
-            /* Include padding in width */
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #f0f2f5;
+            flex-grow: 1;
+            /* Allow this to grow and take available space */
         }
 
-        /* --- Bagian Header Dashboard --- */
+        /* --- Bagian Header Dashboard (Selamat Datang, Seller! Dashboard - image_16ac8d.png) --- */
         .dashboard-header-section {
             background-color: #d1d1d1;
             padding: 20px;
@@ -221,7 +184,7 @@
             font-weight: normal;
         }
 
-        /* --- GRID STATISTIK --- */
+        /* --- GRID STATISTIK (image_16ac8d.png) --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -256,10 +219,10 @@
             margin: 0;
         }
 
-        /* --- Bagian Pesanan Masuk (example for structure) --- */
+        /* --- Bagian Pesanan Masuk (image_7578b3.png & image_757fb8.png) --- */
         .incoming-orders-section {
             margin-top: 30px;
-            padding: 0;
+            padding: 0 0px;
         }
 
         .incoming-orders-section h2 {
@@ -345,6 +308,162 @@
             background-color: #5a6268;
         }
 
+        /* --- Styling for Edit Produk Section --- */
+        .edit-product-container {
+            width: 100%;
+            /* Ensure it takes full available width */
+            max-width: 800px;
+            margin: 20px auto;
+            /* Centered with top/bottom margin */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            /* Include padding in the element's total width and height */
+            flex-grow: 1;
+            /* Allow this container to grow and take available space */
+        }
+
+        .edit-product-container h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .edit-product-section {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .edit-product-section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .edit-product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .edit-product-item:last-child {
+            border-bottom: none;
+        }
+
+        .edit-product-item-name {
+            font-weight: normal;
+            color: #333;
+        }
+
+        .edit-product-item-price {
+            color: #777;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .edit-product-item-actions a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 15px;
+        }
+
+        .edit-product-item-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .edit-product-add-link {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .edit-product-add-link:hover {
+            text-decoration: underline;
+        }
+
+        .edit-product-placeholder-image {
+            width: 150px;
+            height: 150px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+            font-size: 5em;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .edit-product-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .edit-product-details {
+            flex-grow: 1;
+        }
+
+        .edit-product-form-group {
+            margin-bottom: 15px;
+        }
+
+        .edit-product-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .edit-product-form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .edit-product-button-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .edit-product-button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .edit-product-button:hover {
+            background-color: #555;
+        }
+
+        .edit-product-button-secondary {
+            background-color: #6c757d;
+        }
+
+        .edit-product-button-secondary:hover {
+            background-color: #5a6268;
+        }
+
         /* --- Responsive adjustments --- */
         @media (max-width: 992px) {
             .stats-grid {
@@ -358,18 +477,10 @@
         }
 
         @media (max-width: 768px) {
-
-            /* Adjustments for full-width sections on small screens */
-            .navbar-top-first,
-            .header-bar-second {
-                padding-left: 15px;
-                /* Add horizontal padding to full-width sections */
-                padding-right: 15px;
-            }
-
             .navbar-top-first {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 10px 15px;
                 gap: 5px;
             }
 
@@ -379,6 +490,7 @@
 
             .header-bar-second {
                 flex-direction: column;
+                padding: 15px;
                 align-items: flex-start;
             }
 
@@ -404,17 +516,8 @@
                 margin-left: 0;
             }
 
-            /* Adjustments for the page-wrapper and its content on smaller screens */
-            #page-wrapper {
-                margin-top: 15px;
-                /* Adjust top margin for smaller screens */
-                padding: 0 15px;
-                /* Adjust horizontal padding directly to the wrapper */
-            }
-
             .dashboard-header-section {
                 padding: 15px 20px;
-                /* Internal padding for this section remains */
             }
 
             .stats-grid {
@@ -447,6 +550,86 @@
                 width: auto;
                 flex-grow: 1;
             }
+
+            /* Responsive for Edit Product section */
+            .edit-product-header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .edit-product-placeholder-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
         }
     </style>
-</div>
+</head>
+
+@include('components.seller.navbar')
+<body>
+    <div class="edit-product-container">
+        <h1>Edit Produk</h1>
+
+        <div class="edit-product-header">
+            <div class="edit-product-placeholder-image">
+                <p>🖼️</p>
+            </div>
+            <div class="edit-product-details">
+            </div>
+        </div>
+
+        <div class="edit-product-section">
+            <div class="edit-product-section-title">Topping</div>
+                <div class="edit-product-item">
+                <div>
+                <span class="edit-product-item-name"></span>
+                <span class="edit-product-item-price"></span>
+                </div>
+                <div class="edit-product-item-actions">
+                <a href="#">Edit</a>
+                <a href="#">Hapus</a>
+                </div>
+                </div>
+
+            <a href="#" class="edit-product-add-link">Tambahkan Lainnya di Menu Ini</a>
+        </div>
+
+        <div class="edit-product-section">
+            <div class="edit-product-section-title">Ukuran</div>
+            <div class="edit-product-item">
+                <div>
+                    <span class="edit-product-item-name">Small</span>
+                </div>
+                <div class="edit-product-item-actions">
+                </div>
+            </div>
+            <a href="#" class="edit-product-add-link">Tambahkan Ukuran Lainnya</a>
+        </div>
+
+        <div class="edit-product-section">
+            <div class="edit-product-section-title">Tambahkan Judul Variasi</div>
+            <div class="edit-product-form-group">
+                <input type="text" class="edit-product-form-control" value="Nama Variasi" readonly>
+            </div>
+            <div class="edit-product-item">
+                <div>
+                    <span class="edit-product-item-name">Nama Variasi</span>
+                    <span class="edit-product-item-price">Atur Harga</span>
+                </div>
+                <div class="edit-product-item-actions">
+                    <a href="#">Edit</a>
+                    <a href="#">Hapus</a>
+                </div>
+            </div>
+            <a href="#" class="edit-product-add-link">Tambahkan Jenis Variasi Lainnya<br>di Menu Ini</a>
+        </div>
+
+        <div class="edit-product-button-group">
+            <a href="#" class="edit-product-button">Edit Gambar, Judul Dan Keterangan</a>
+            <a href="#" class="edit-product-button edit-product-button-secondary">Tambah Menu Variasi</a>
+        </div>
+
+    </div>
+</body>
+
+@include('components.seller.footer')

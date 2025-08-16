@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ukrida E-Commerce Seller Dashboard - Tambah Produk</title>
+    <title>Ukrida E-Commerce Seller Dashboard - Edit Produk</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet" />
     <style>
@@ -371,15 +371,31 @@
     <div class="product-form-container">
         <div class="card-style-form">
             <div class="product-form-header">
-                <h2>Tambah Produk</h2>
+                <h2>Edit Produk</h2>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+            @if(session('success'))
+                <div style="padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px; margin: 15px;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                {{-- Image Upload + Crop --}}
+                {{-- Gambar Lama --}}
                 <div class="form-group">
-                    <label for="imageInput">Upload Gambar</label><br>
+                    <label>Gambar Saat Ini</label><br>
+                    @if ($product->image_url)
+                        <img src="{{ $product->image_url }}" style="max-width: 200px; margin-bottom: 10px;">
+                    @else
+                        <p><i>Tidak ada gambar</i></p>
+                    @endif
+                </div>
+
+                {{-- Upload Baru--}}
+                <div class="form-group">
+                    <label for="imageInput">Upload Gambar Baru (Opsional)</label><br>
                     <input type="file" id="imageInput" accept="image/*">
                     <div style="margin-top: 10px;">
                         <img id="imagePreview" style="max-width: 100%; display:none;" />
@@ -389,31 +405,32 @@
 
                 {{-- Preview hasil crop --}}
                 <div class="form-group mt-3">
-                    <label>Preview Gambar</label><br>
+                    <label>Preview Gambar Baru</label><br>
                     <img id="preview_0" src="#" style="max-width: 100%; display:none;" />
-                    <input type="file" name="image" id="imageHidden" style="display:none;" required>
+                    <input type="file" name="image" id="imageHidden" style="display:none;">
                 </div>
-
 
                 {{-- Nama Produk --}}
                 <div class="form-group">
                     <label for="product_name">Nama Produk</label>
-                    <input type="text" name="product_name" id="product_name" class="form-control" required>
+                    <input type="text" name="product_name" value="{{ old('product_name', $product->product_name) }}" required>
                 </div>
 
                 {{-- Harga --}}
                 <div class="form-group">
                     <label for="price">Harga</label>
-                    <input type="number" name="price" id="price" class="form-control" required>
+                    <input type="number" name="price" value="{{ old('price', $product->price) }}" required>
                 </div>
 
                 {{-- Kategori --}}
                 <div class="form-group">
                     <label for="category">Kategori</label>
-                    <select name="category_id" id="category_id" class="form-control" required>
+                    <select name="category_id" required>
                         <option value="">-- Pilih Kategori --</option>
                         @foreach ($categories as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}" {{ $cat->id == $product->category_id ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -421,21 +438,18 @@
                 {{-- Stok --}}
                 <div class="form-group">
                     <label for="stock">Stok</label>
-                    <input type="number" name="stock" id="stock" class="form-control" required>
+                    <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" required>
                 </div>
 
                 {{-- Deskripsi --}}
                 <div class="form-group">
                     <label for="description">Deskripsi</label>
-                    <textarea name="description" id="description" rows="4" class="form-control"></textarea>
+                    <textarea name="description" rows="4">{{ old('description', $product->description) }}</textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Simpan Produk</button>
+                <button type="submit" class="btn btn-primary">Update Produk</button>
             </form>
-
-
         </div>
-
     </div>
 
     <script>

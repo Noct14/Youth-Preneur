@@ -436,6 +436,7 @@
             <div class="dashboard-header-section">
                 <h2>Selamat Datang, Seller!</h2>
                 <p>Dashboard</p>
+                <h2>{{$storeName}}</h2>
             </div>
 
             <div class="stats-grid">
@@ -453,7 +454,7 @@
                 </div>
                 <div class="stat-card">
                     <h3>Jumlah Produk</h3>
-                    <p class="stat-number">1</p>
+                    <p class="stat-number">{{$productCount}}</p>
                 </div>
                 <div class="stat-card">
                     <h3>Saldo di UEC</h3>

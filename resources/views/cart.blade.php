@@ -176,64 +176,60 @@
 <body>
     <div class="main-content-wrapper">
         <div class="page-main-header">Keranjang Belanja</div>
-
-
-        <form action="{{ route('checkout') }}" method="POST" class="footer-checkout">
-            @csrf
-
-            @if($cart && $cart->items->count())
-                @foreach($cart->items as $item)
-                    <div class="cart-entry">
-                        <div class="item-card">
-                            <div class="item-placeholder">
-                                <img src="{{ $item->product->image_url ?? 'https://via.placeholder.com/100' }}" alt="{{ $item->product->product_name }}">
+        @if(session('success'))
+            <div style="padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px; margin: 15px;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($cart && $cart->items->count())
+            @foreach($cart->items as $item)
+                <div class="cart-entry">
+                    <div class="item-card">
+                        <div class="item-placeholder">
+                            <img src="{{ $item->product->image_url ?? 'https://via.placeholder.com/100' }}" alt="{{ $item->product->product_name }}">
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">
+                                <label>
+                                    {{ $item->product->product_name }} (Rp. {{ number_format($item->product->price, 0, ',', '.') }})
+                                </label>
                             </div>
-                            <div class="item-details">
-                                <div class="item-name">
-                                    <label>
-                                        <input type="checkbox" name="selected_items[]" value="{{ $item->id }}">
-                                        {{ $item->product->product_name }} (Rp. {{ number_format($item->product->price, 0, ',', '.') }})
-                                    </label>
-                                </div>
 
-                                @if($item->options->isNotEmpty())
-                                    <div class="item-info">
-                                        {{ $item->options->pluck('name')->join(', ') }}
-                                    </div>
-                                @endif
-
+                            @if($item->options->isNotEmpty())
                                 <div class="item-info">
-                                    ({{ $item->quantity }} x Rp.{{ number_format($item->product->price, 0, ',', '.') }})
+                                    {{ $item->options->pluck('name')->join(', ') }}
                                 </div>
+                            @endif
 
-                                <div class="item-actions">
-                                    <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="hapus">Hapus</button>
-                                    </form>
-                                </div>
+                            <div class="item-info">
+                                ({{ $item->quantity }} x Rp.{{ number_format($item->product->price, 0, ',', '.') }})
+                            </div>
+
+                            <div class="item-actions">
+                                <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="hapus">Hapus</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                @endforeach
-
-                <div class="footer-checkout">
-                    <button class="checkout-button">Lanjut Pembayaran</button>
                 </div>
-            @else
-                <div class="text-gray-600 p-4">Keranjang kamu kosong 😢</div>
-            @endif
-        </form>
+            @endforeach
 
+            <form action="{{ route('view.checkout') }}" method="POST" class="footer-checkout">
+                @csrf
+                @foreach($cart->items as $item)
+                    <input type="hidden" name="cart[item {{ $loop->index }}][product_id]" value="{{ $item->product->id }}">
+                    <input type="hidden" name="cart[item {{ $loop->index }}][quantity]" value="{{ $item->quantity }}">
+                    <input type="hidden" name="cart[item {{ $loop->index }}][price]" value="{{ $item->product->price }}">
+                @endforeach
+                <button class="checkout-button">Lanjut Pembayaran</button>
+            </form>
+        @else
+            <div class="text-gray-600 p-4">Keranjang kamu kosong 😢</div>
+        @endif
     </div>
-
-    <form action="{{ route('checkout') }}" method="POST" class="footer-checkout">
-        @csrf
-        <button class="checkout-button">Lanjut Pembayaran</button>
-    </form>
-
-
 </body>
 
 <script>

@@ -36,8 +36,12 @@ class ProductController extends Controller
 
     public function detailProduct($id)
     {
-        $product = Product::with(['optionGroups.options', 'seller.DetailSeller'])->findOrFail($id);
-        return view('product-detail', compact('product'));
+        $product = Product::with(['optionGroups.options', 'detailSellers'])->findOrFail($id);
+
+        $storeName = optional($product->detailSellers)->store_name;
+        $storeId = optional($product->detailSellers)->id;
+
+        return view('product-detail', compact('product', 'storeName', 'storeId'));
     }
 
     public function search(Request $request)

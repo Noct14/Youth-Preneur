@@ -1,3 +1,4 @@
+@include('components.admin.navbar')
 <style>
     .tabs {
         display: flex;
@@ -5,7 +6,6 @@
         gap: 0.5rem; /* sama dengan space-x-2 */
         padding-top: 1rem; /* sama dengan py-4 */
         padding-bottom: 1rem;
-        /* border-bottom: 1px solid #D1D5DB; /* border-gray-300 */
         font-size: 0.875rem; /* text-sm */
     }
 
@@ -32,23 +32,13 @@
         font-weight: 600; /* font-semibold */
     }
 </style>
-
-
-<div class="tabs">
-    <a href="index.php?page=detil-akun"
-       class="tab-link <?php echo $current_page === "detil-akun" ? 'tab-active' : ''; ?>">
-        Kontak
-    </a>
-    <a href="index.php?page=dt-a-tr-belum-dibayar"
-       class="tab-link <?php echo $current_page === "dt-a-tr-belum-dibayar" ? 'tab-active' : ''; ?>">
-        Transaksi Belum Dibayar
-    </a>
-    <a href="index.php?page=dt-a-tr-diproses"
-       class="tab-link <?php echo $current_page === "dt-a-tr-diproses" ? 'tab-active' : ''; ?>">
-        Transaksi Diproses
-    </a>
-    <a href="index.php?page=dt-a-tr-selesai"
-       class="tab-link <?php echo $current_page === "dt-a-tr-selesai" ? 'tab-active' : ''; ?>">
-        Transaksi Selesai
-    </a>
+<div class="navbar-top-first">
+    <a href="{{ route('admin.detailseller', ['id' => $store->id]) }}">Produk</a>
+    <a href="#">Transaksi Masuk</a>
+    <a href="#">Transaksi Diproses</a>
+    <a href="#">Transaksi Selesai</a>
+    <a href="#">Pengajuan Penarikan</a>
+    <a href="#">Telah Ditarik</a>
 </div>
+
+

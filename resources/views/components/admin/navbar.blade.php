@@ -12,11 +12,11 @@
         <a href="logout.php" class="logout-btn">Logout</a>
     </header>
     <div class="navbar-top-first">
-        <a href="{{ route('seller.dashboard') }}">Home</a>
-        <a href="{{ route('products.bySeller') }}">Daftar Produk</a>
-        <a href="pesanan_dikirim_disortir.php">Pesanan Dikirim</a>
-        <a href="pesanan_masuk.php">Pesanan Masuk</a>
-        <a href="proses_pesanan.php">Proses Pesanan</a>
+        <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+        <a href="{{ route('admin.seller') }}">Daftar Toko</a>
+        <a href="{{ route('admin.buyer') }}">Daftar Pembeli</a>
+        <a href="{{ route('tr') }}">Transaksi</a>
+        <a href="{{ route('admin.category') }}">Kategori</a>
     </div>
 
     <script>

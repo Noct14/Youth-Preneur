@@ -1,3 +1,6 @@
+<head>
+    <meta charset="utf-8">
+    <title>Daftar Toko</title>
 <style>
     .content {
         padding:48px;
@@ -76,48 +79,36 @@
     }
 
 </style>
-
+</head>
 <body>
+    @include('components.admin.navbar')
     <div class='content'>
+        @foreach ($stores as $store)
         <div class="store-card">
             <div class="store-image">
                 <img src="https://cdn-icons-png.flaticon.com/512/1829/1829586.png" alt="Icon Produk">
             </div>
             <div class="store-info">
-                <h3>Teh Tarik Kalten</h3>
-                <p>Pemilik: Kalten - 412022018</p>
-                <p>Kontak:</p>
-                <p>Dana Cair: Rp. 20.000</p>
-                <p>Dana Tertahan: Rp. 50.000</p>
-                <p>Berdiri Sejak: 01-02-2025</p>
-                <p>Jumlah Produk: 2</p>
+                <h3>{{ $store->store_name }}</h3>
+                <p>Pemilik: {{ $store->user->name }}</p>
+                <p>Kontak: {{ $store->phone }}</p>
+                <p>Berdiri Sejak: {{ \Carbon\Carbon::parse($store->created_at)->format('d F Y') }}</p>
+                <p>Jumlah Produk: {{ $store->products_count }}</p>
                 <p>Jumlah Total Transaksi: 10</p>
                 <div class="store-actions">
-                    <a href="index.php?page=dt-toko">Lihat Detail</a>
+                    <a href="{{ route('admin.detailseller', ['id' => $store->id]) }}">Lihat Detail</a>
                     <button>Hapus Toko</button>
                 </div>
             </div>
         </div>
+        @endforeach
 
-        <div class="store-card">
-            <div class="store-image">
-                <img src="https://cdn-icons-png.flaticon.com/512/1829/1829586.png" alt="Icon Produk">
-            </div>
-            <div class="store-info">
-                <h3>Basreng Mania</h3>
-                <p>Pemilik: Andreas - 412022002</p>
-                <p>Kontak:</p>
-                <p>Dana Cair: Rp. 20.000</p>
-                <p>Dana Tertahan: Rp. 0</p>
-                <p>Berdiri Sejak: 01-02-2025</p>
-                <p>Jumlah Produk: 2</p>
-                <p>Jumlah Total Transaksi: 1</p>
-                <div class="store-actions">
-                    <a href="#">Lihat Detil</a>
-                    <button>Hapus Toko</button>
-                </div>
-            </div>
-        </div>
+        @if ($stores->isEmpty())
+            <p>Tidak ada toko yang terdaftar.</p>
+        @endif
     </div>
 
+
+
 </body>
+@include('components.admin.footer')
